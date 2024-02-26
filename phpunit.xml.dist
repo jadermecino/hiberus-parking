@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         bootstrap="web/core/tests/bootstrap.php"
+         colors="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutChangesToGlobalState="true"
+         failOnWarning="true"
+         printerClass="\Drupal\Tests\Listeners\HtmlOutputPrinter"
+         cacheResult="false">
+  <php>
+    <ini name="error_reporting" value="32767"/>
+    <ini name="memory_limit" value="-1"/>
+  </php>
+  <coverage>
+    <include>
+      <directory>./web/modules/custom</directory>
+    </include>
+    <exclude>
+      <directory>./web/modules/contrib</directory>
+    </exclude>
+  </coverage>
+  <!--testsuites>
+    <testsuite name="parking">
+      <directory>./web/modules/custom/hiberus/</directory>
+    </testsuite>
+  </testsuites!-->
+</phpunit>

@@ -1,0 +1,8 @@
+.DS_Store
+/.docker
+/.lando
+.env.example
+.lando.yml
+docker-compose.yml
+Makefile
+README.md

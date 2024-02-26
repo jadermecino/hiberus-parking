@@ -1,0 +1,24 @@
+name: hiberus-parking
+recipe: drupal10
+config:
+  php: '8.1'
+  webroot: web
+  xdebug: true
+  config:
+    php: .lando/config/php.ini
+
+services:
+  appserver:
+    xdebug: true
+    config:
+      php: .lando/config/php.ini
+    type: php:8.1
+    overrides:
+      environment:
+        PHP_IDE_CONFIG: "serverName=appserver"
+  cache:
+    type: redis:6
+
+tooling:
+  drupal:
+    service: appserver

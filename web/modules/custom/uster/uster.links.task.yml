@@ -1,0 +1,9 @@
+uster.driver_list:
+  title: 'Drivers'
+  route_name: view.listado_de_conductores.page_1
+  base_route: uster.controllers.parking.v1_0.trip_create_form
+
+uster.vechile_list:
+  title: 'Vehicles'
+  route_name: view.listado_de_vehiculos.page_1
+  base_route: uster.controllers.parking.v1_0.trip_create_form

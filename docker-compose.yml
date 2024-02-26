@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+
+  cache:
+    image: redis:6.2.14-alpine
+    container_name: "hiberus-parking-cache"
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./.docker/var/data/redis:/data:delegated
+
+  database:
+    container_name: "hiberus-parking-database"
+    image: mariadb:10.7.4
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - ./.docker/migrations:/docker-entrypoint-initdb.d/
+      - ./.docker/var/data/mariadb:/var/lib/mysql
+    command: [ "--default-authentication-plugin=mysql_native_password" ]
+    depends_on:
+      - cache
+
+  webserver:
+    image: nginx:1.25.4-alpine
+    container_name: "hiberus-parking-webserver"
+    ports:
+      - "80:80"
+    volumes:
+      - ./.docker/etc/nginx/apps:/etc/nginx/apps:cached
+      - ./.docker/etc/nginx/sites-enabled:/etc/nginx/sites-enabled:cached
+      - ./.docker/etc/nginx/php_fastcgi.conf:/etc/nginx/php_fastcgi.conf:cached
+      - ./.docker/etc/nginx/nginx.conf:/etc/nginx/nginx.conf:cached
+      - ./.docker/var/logs/nginx:/var/log/nginx:delegated
+      - .:/var/www/html:delegated
+    depends_on:
+      - php
+
+  php:
+    container_name: "hiberus-parking-php"
+    build:
+      context: ./
+      dockerfile: ./.docker/images/php/Dockerfile
+    volumes:
+      - ./.docker/etc/php/php.ini:/usr/local/etc/php/php.ini:delegated
+      - ./.docker/var/logs/php:/var/log/php:delegated
+      - .:/var/www/html
+    depends_on:
+      - cache
+      - database
+#    command: php -S localhost:80 web/.ht.router.php

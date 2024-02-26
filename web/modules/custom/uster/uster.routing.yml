@@ -1,0 +1,47 @@
+uster.controllers.parking.v1_0.driver_create_form:
+  path: '/dashboard/parking/v1.0/drivers/create'
+  defaults:
+    _controller: '\Drupal\uster\Controller\Parking\v1_0\DriverCreateController'
+    _title: 'Driver create'
+  requirements:
+    _access: 'TRUE'
+
+uster.controllers.parking.v1_0.driver_delete_form:
+  path: '/dashboard/parking/v1.0/drivers/{driver}/delete'
+  defaults:
+    _controller: '\Drupal\uster\Controller\Parking\v1_0\DriverDeleteController'
+    _title: 'Driver delete'
+  requirements:
+    _access: 'TRUE'
+  options:
+    parameters:
+      driver:
+        type: entity:drivers
+
+uster.controllers.parking.v1_0.trip_create_form:
+  path: '/dashboard/parking/v1.0/trip/create'
+  defaults:
+    _controller: '\Drupal\uster\Controller\Parking\v1_0\TripCreateController'
+    _title: 'Trip create'
+  requirements:
+    _access: 'TRUE'
+
+uster.controllers.parking.v1_0.vehicle_create_form:
+  path: '/dashboard/parking/v1.0/vehicles/create'
+  defaults:
+    _controller: '\Drupal\uster\Controller\Parking\v1_0\VehicleCreateController'
+    _title: 'Vehicle create'
+  requirements:
+    _access: 'TRUE'
+
+uster.controllers.parking.v1_0.vehicle_delete_form:
+  path: '/dashboard/parking/v1.0/vehicles/{vehicle}/delete'
+  defaults:
+    _controller: '\Drupal\uster\Controller\Parking\v1_0\VehicleDeleteController'
+    _title: 'Vehicle delete'
+  requirements:
+    _access: 'TRUE'
+  options:
+    parameters:
+      vehicle:
+        type: entity:vehicles

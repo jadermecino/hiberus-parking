@@ -1,0 +1,130 @@
+services:
+
+  logger.channel.uster:
+    class: Drupal\Core\Logger\LoggerChannel
+    factory: [ '@logger.factory', 'get' ]
+    arguments: [ 'uster' ]
+
+  uster.exception_subscriber:
+    class: Drupal\uster\EventSubscriber\ExceptionSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  symfony.validator:
+    class: Symfony\Component\Validator\Validation
+    factory: Symfony\Component\Validator\Validation::createValidator
+
+  uster.services.parking.v1_0.repository.drupal_driver_repository:
+    class: Drupal\uster\Repository\Parking\v1_0\DrupalDriverRepository
+    arguments:
+      - '@entity_type.manager'
+      - '@database'
+
+  uster.services.parking.v1_0.repository.drupal_trip_repository:
+    class: Drupal\uster\Repository\Parking\v1_0\DrupalTripRepository
+    arguments: [ '@entity_type.manager' ]
+
+  uster.services.parking.v1_0.repository.drupal_vehicle_repository:
+    class: Drupal\uster\Repository\Parking\v1_0\DrupalVehicleRepository
+    arguments:
+      - '@entity_type.manager'
+      - '@database'
+
+  uster.services.parking.v1_0.repository.driver_repository:
+    abstract: true
+    arguments: [ '@uster.services.parking.v1_0.repository.drupal_driver_repository' ]
+
+  uster.services.parking.v1_0.repository.trip_repository:
+    abstract: true
+    arguments: [ '@uster.services.parking.v1_0.repository.drupal_trip_repository' ]
+
+  uster.services.parking.v1_0.repository.vehicle_repository:
+    abstract: true
+    arguments: [ '@uster.services.parking.v1_0.repository.drupal_vehicle_repository' ]
+
+  uster.services.parking.v1_0.driver.create:
+    class: Drupal\uster\Services\Parking\v1_0\Driver\Create
+    parent: uster.services.parking.v1_0.repository.driver_repository
+    arguments:
+      - '@uster.services.parking.v1_0.driver.find_by_names'
+
+  uster.services.parking.v1_0.driver.delete:
+    class: Drupal\uster\Services\Parking\v1_0\Driver\Delete
+    parent: uster.services.parking.v1_0.repository.driver_repository
+    arguments:
+      - '@uster.services.parking.v1_0.driver.find'
+
+  uster.services.parking.v1_0.driver.list:
+    class: Drupal\uster\Services\Parking\v1_0\Driver\DriverList
+    parent: uster.services.parking.v1_0.repository.driver_repository
+    arguments: [ ]
+
+  uster.services.parking.v1_0.driver.find:
+    class: Drupal\uster\Services\Parking\v1_0\Driver\Find
+    parent: uster.services.parking.v1_0.repository.driver_repository
+    arguments: [ ]
+
+  uster.services.parking.v1_0.driver.find_by_names:
+    class: Drupal\uster\Services\Parking\v1_0\Driver\FindByNames
+    parent: uster.services.parking.v1_0.repository.driver_repository
+    arguments: [ ]
+
+  uster.services.parking.v1_0.driver.find_without_trip:
+    class: Drupal\uster\Services\Parking\v1_0\Driver\FindWithoutTrip
+    parent: uster.services.parking.v1_0.repository.driver_repository
+    arguments: [ ]
+
+  uster.services.parking.v1_0.trip.create:
+    class: Drupal\uster\Services\Parking\v1_0\Trip\Create
+    parent: uster.services.parking.v1_0.repository.trip_repository
+    arguments:
+      - '@uster.services.parking.v1_0.trip.find_by_vehicle_and_driver'
+      - '@uster.services.parking.v1_0.vehicle.find'
+      - '@uster.services.parking.v1_0.driver.find'
+
+  uster.services.parking.v1_0.trip.find:
+    class: Drupal\uster\Services\Parking\v1_0\Trip\Find
+    parent: uster.services.parking.v1_0.repository.trip_repository
+    arguments: [ ]
+
+  uster.services.parking.v1_0.trip.find_by_vehicle_and_driver:
+    class: Drupal\uster\Services\Parking\v1_0\Trip\FindBy
+    parent: uster.services.parking.v1_0.repository.trip_repository
+    arguments: [ ]
+
+  uster.services.parking.v1_0.trip.list:
+    class: Drupal\uster\Services\Parking\v1_0\Trip\TripList
+    parent: uster.services.parking.v1_0.repository.trip_repository
+    arguments: [ ]
+
+  uster.services.parking.v1_0.vehicle.create:
+    class: Drupal\uster\Services\Parking\v1_0\Vehicle\Create
+    parent: uster.services.parking.v1_0.repository.vehicle_repository
+    arguments:
+      - '@uster.services.parking.v1_0.vehicle.find_by_plate'
+
+  uster.services.parking.v1_0.vehicle.delete:
+    class: Drupal\uster\Services\Parking\v1_0\Vehicle\Delete
+    parent: uster.services.parking.v1_0.repository.vehicle_repository
+    arguments:
+      - '@uster.services.parking.v1_0.vehicle.find'
+
+  uster.services.parking.v1_0.vehicle.find:
+    class: Drupal\uster\Services\Parking\v1_0\Vehicle\Find
+    parent: uster.services.parking.v1_0.repository.vehicle_repository
+    arguments: [ ]
+
+  uster.services.parking.v1_0.vehicle.find_by_plate:
+    class: Drupal\uster\Services\Parking\v1_0\Vehicle\FindByPlate
+    parent: uster.services.parking.v1_0.repository.vehicle_repository
+    arguments: [ ]
+
+  uster.services.parking.v1_0.vehicle.find_without_trip:
+    class: Drupal\uster\Services\Parking\v1_0\Vehicle\FindWithoutTrip
+    parent: uster.services.parking.v1_0.repository.vehicle_repository
+    arguments: [ ]
+
+  uster.services.parking.v1_0.vehicle.list:
+    class: Drupal\uster\Services\Parking\v1_0\Vehicle\VehicleList
+    parent: uster.services.parking.v1_0.repository.vehicle_repository
+    arguments: [ ]

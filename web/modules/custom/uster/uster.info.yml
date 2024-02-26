@@ -1,0 +1,6 @@
+name: "Uster"
+type: module
+description: "Uster parking"
+package: Uster
+core_version_requirement: ^9 || ^10
+version: "1.0"
