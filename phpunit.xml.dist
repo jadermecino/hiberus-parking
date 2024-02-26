@@ -20,9 +20,9 @@
       <directory>./web/modules/contrib</directory>
     </exclude>
   </coverage>
-  <!--testsuites>
+  <testsuites>
     <testsuite name="parking">
-      <directory>./web/modules/custom/hiberus/</directory>
+      <directory>./web/modules/custom/uster/</directory>
     </testsuite>
-  </testsuites!-->
+  </testsuites>
 </phpunit>
